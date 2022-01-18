@@ -7,22 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2270F8FF2795A85600A532F1 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2270F8FE2795A85600A532F1 /* Cards.swift */; };
+		2270F9012795A8E500A532F1 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2270F9002795A8E500A532F1 /* FileManager.swift */; };
 		228EEA5C2794460E00C2314E /* FlashzillaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228EEA5B2794460E00C2314E /* FlashzillaApp.swift */; };
 		228EEA5E2794460E00C2314E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228EEA5D2794460E00C2314E /* ContentView.swift */; };
 		228EEA602794461000C2314E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 228EEA5F2794461000C2314E /* Assets.xcassets */; };
 		228EEA632794461000C2314E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 228EEA622794461000C2314E /* Preview Assets.xcassets */; };
-		228EEA6A2794461900C2314E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228EEA692794461900C2314E /* Card.swift */; };
 		228EEA6C2794499D00C2314E /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228EEA6B2794499D00C2314E /* CardView.swift */; };
 		228EEA6E2794949F00C2314E /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228EEA6D2794949F00C2314E /* EditView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2270F8FE2795A85600A532F1 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
+		2270F9002795A8E500A532F1 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		228EEA582794460E00C2314E /* Flashzilla.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flashzilla.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		228EEA5B2794460E00C2314E /* FlashzillaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashzillaApp.swift; sourceTree = "<group>"; };
 		228EEA5D2794460E00C2314E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		228EEA5F2794461000C2314E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		228EEA622794461000C2314E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		228EEA692794461900C2314E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		228EEA6B2794499D00C2314E /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		228EEA6D2794949F00C2314E /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -59,7 +61,8 @@
 			children = (
 				228EEA5B2794460E00C2314E /* FlashzillaApp.swift */,
 				228EEA5D2794460E00C2314E /* ContentView.swift */,
-				228EEA692794461900C2314E /* Card.swift */,
+				2270F8FE2795A85600A532F1 /* Cards.swift */,
+				2270F9002795A8E500A532F1 /* FileManager.swift */,
 				228EEA6B2794499D00C2314E /* CardView.swift */,
 				228EEA6D2794949F00C2314E /* EditView.swift */,
 				228EEA5F2794461000C2314E /* Assets.xcassets */,
@@ -148,7 +151,8 @@
 			files = (
 				228EEA5E2794460E00C2314E /* ContentView.swift in Sources */,
 				228EEA6E2794949F00C2314E /* EditView.swift in Sources */,
-				228EEA6A2794461900C2314E /* Card.swift in Sources */,
+				2270F9012795A8E500A532F1 /* FileManager.swift in Sources */,
+				2270F8FF2795A85600A532F1 /* Cards.swift in Sources */,
 				228EEA6C2794499D00C2314E /* CardView.swift in Sources */,
 				228EEA5C2794460E00C2314E /* FlashzillaApp.swift in Sources */,
 			);

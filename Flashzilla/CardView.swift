@@ -7,9 +7,25 @@
 
 import SwiftUI
 
+
+extension RoundedRectangle {
+    func fillWithOffset(offset: CGSize) -> some View {
+        var backgroundColor = Color.white
+        if offset.width > 0 {
+            backgroundColor = .green
+        } else if offset.width < 0 {
+            backgroundColor = .red
+        } else {
+            backgroundColor = .white
+        }
+        return self.fill(backgroundColor)
+    }
+}
+
+
 struct CardView: View {
     let card: Card
-    var removal: (() -> Void)? = nil
+    var removal: ((_ isWrong: Bool) -> Void)? = nil
 
     @State private var isShowingAnswer = false
     @State private var offset = CGSize.zero
@@ -31,7 +47,7 @@ struct CardView: View {
                 .background(
                     differentiateWithoutColor ? nil :
                     RoundedRectangle(cornerRadius: 25, style: .continuous)
-                        .fill(offset.width > 0 ? .green : .red)
+                        .fillWithOffset(offset:offset)
                 )
                 .shadow(radius: 20)
             VStack {
@@ -70,15 +86,19 @@ struct CardView: View {
                 }.onEnded { _ in
                     if abs(offset.width) > 100 {
                         if offset.width > 0 {
+                            removal?(false)
                             feedback.notificationOccurred(.success)
                         } else {
                             feedback.notificationOccurred(.error)
+                            removal?(true)
                         }
-                        
-                        removal?()
+                       
                     } else {
-                        offset = .zero
-                    }
+                        withAnimation {
+                            offset = .zero
+
+                        }
+                                            }
                 }
             ).animation(.spring(), value: offset)
 
@@ -88,6 +108,6 @@ struct CardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(card: Card.example)
+        CardView(card: Card())
     }
 }

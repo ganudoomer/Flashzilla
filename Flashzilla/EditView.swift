@@ -11,7 +11,7 @@ struct EditView: View {
     @Environment(\.dismiss) var dismiss
     @State private var newPrompt = ""
     @State private var newAnswer = ""
-    @State private var cards = [Card]()
+    @EnvironmentObject var cardsController: Cards
     
     
     var body: some View {
@@ -24,12 +24,14 @@ struct EditView: View {
                         add()
                     }
                     Section {
-                        ForEach(0..<cards.count, id: \.self) { index in
+                        ForEach(cardsController.cards) { card in
                             VStack(alignment: .leading){
-                                Text(cards[index].prompt).font(.headline)
-                                Text(cards[index].answer).foregroundColor(.secondary)
+                                Text(card.prompt).font(.headline)
+                                Text(card.answer).foregroundColor(.secondary)
                             }
-                        }.onDelete(perform: delete)
+                        }.onDelete { index in
+                            cardsController.removeFromIndex(index: index)
+                        }
                     }
                 }
             }
@@ -38,7 +40,6 @@ struct EditView: View {
                            Button("Done", action: done)
                        }
                        .listStyle(.grouped)
-            .onAppear(perform: loadData)
         
         }
     }
@@ -46,41 +47,25 @@ struct EditView: View {
         dismiss()
     }
     
-    
-    func loadData() {
-        if let data = UserDefaults.standard.data(forKey: "Cards") {
-            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-                cards = decoded
-            }
-        }
-    }
-    
-    func add(){
+
+    @MainActor func add(){
         let trimmedPrompt = newPrompt.trimmingCharacters(in: .whitespaces)
         let trimmedAnswer = newAnswer.trimmingCharacters(in: .whitespaces)
         
         guard trimmedAnswer.isEmpty == false && trimmedPrompt.isEmpty == false else { return }
-        let card = Card(prompt: trimmedPrompt, answer: trimmedAnswer)
-        cards.insert(card, at: 0)
-        save()
+        let card = Card()
+        card.prompt = trimmedPrompt
+        card.answer = trimmedAnswer
+        cardsController.add(card: card)
+        newPrompt = ""
+        newAnswer = ""
         
+    }
         
-    }
-    
-    func save(){
-        if let data = try? JSONEncoder().encode(cards) {
-            UserDefaults.standard.set(data, forKey: "Cards")
-        }
-    }
-    
-    func delete(at offset: IndexSet){
-        cards.remove(atOffsets: offset)
-        save()
-    }
 }
 
 struct EditView_Previews: PreviewProvider {
     static var previews: some View {
-        EditView()
+        EditView().environmentObject(Cards())
     }
 }

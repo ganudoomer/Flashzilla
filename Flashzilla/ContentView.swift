@@ -15,7 +15,7 @@ extension View {
 }
 
 struct ContentView: View {
-    @State private var cards = [Card]()
+    @StateObject private var cardsController = Cards()
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
     @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
 
@@ -42,17 +42,18 @@ struct ContentView: View {
                     .clipShape(Capsule())
                 
                 ZStack {
-                    ForEach(0..<cards.count,id:\.self){ index in
-                        CardView(card: cards[index]){
+                    ForEach(cardsController.cards){ card in
+                        CardView(card: card){ isWrong in
                             withAnimation {
-                                removeCard(at: index)
+                                cardsController.remove(id: card.id)
+                                if isWrong {
+                                    cardsController.tempAdd(card: card)
+                                }
                             }
-                        }.allowsHitTesting(index == cards.count - 1)
-                            .accessibilityHidden(index < cards.count - 1)
-                        .stacked(at: index, in: cards.count)
+                        }.stacked(at: cardsController.getIndex(id: card.id) ??  0, in: cardsController.cards.count)
                     }
                 }.allowsTightening(timeRemaining > 0)
-                if cards.isEmpty {
+                if cardsController.cards.isEmpty {
                     Button("Start Again", action: resetCard)
                         .padding()
                         .background(.white)
@@ -65,6 +66,7 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     Button{
+                        cardsController.load()
                         isShowingEditScreen = true
                     } label: {
                         Image(systemName: "plus.circle")
@@ -85,7 +87,7 @@ struct ContentView: View {
                     HStack {
                         Button {
                             withAnimation {
-                                removeCard(at: cards.count - 1)
+                              
                             }
                         } label: {
                             Image(systemName: "xmark.circle")
@@ -100,7 +102,7 @@ struct ContentView: View {
                         
                         Button {
                             withAnimation {
-                                removeCard(at: cards.count - 1)
+                               
                             }
                         } label: {
                             Image(systemName: "checkmark.circle")
@@ -116,49 +118,31 @@ struct ContentView: View {
                 }
             }
             
-            
-        }.onReceive(timer) { time  in
+        }
+        .onReceive(timer) { time  in
             guard isActive else { return }
+            if cardsController.cards.isEmpty  { return }
             if timeRemaining > 0 {
                 timeRemaining -= 1
             }
         }.onChange(of: scenePhase) { newPhase in
             if newPhase == .active  {
-                if cards.isEmpty == false  {
+                if cardsController.cards.isEmpty == false  {
                     isActive = true
                 }
             } else {
                 isActive = false
             }
-        }.onAppear {
-            loadData()
-        }.sheet(isPresented: $isShowingEditScreen, onDismiss: resetCard, content: EditView.init)
-
+        }.sheet(isPresented: $isShowingEditScreen, onDismiss: resetCard, content: EditView.init).environmentObject(cardsController)
     }
-    
-    func removeCard(at index: Int) {
-        guard index >= 0 else { return }
-
-        cards.remove(at: index)
-        if cards.isEmpty {
-            isActive = false
-        }
-    }
-    
+        
     func resetCard() {
-        cards = Array(repeating: Card.example, count: 10)
         timeRemaining = 100
         isActive = true
-        loadData()
+        cardsController.load()
     }
     
-    func loadData() {
-        if let data = UserDefaults.standard.data(forKey: "Cards") {
-            if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
-                cards = decoded
-            }
-        }
-    }
+
     
 }
 
